@@ -1,0 +1,36 @@
+<IfModule mod_rewrite.c>
+    Options +FollowSymlinks
+    RewriteEngine On
+    RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+    RewriteRule ^(.*)$ https://%1/$1 [L,R=301]
+</IfModule>
+<IfModule mod_rewrite.c>
+    # если /personal, то в backend
+    RewriteCond %{REQUEST_URI} ^/(personal)
+    RewriteRule ^personal/assets/(.*)$ backend/web/assets/$1 [L]
+    RewriteRule ^personal/css/(.*)$ backend/web/css/$1 [L]
+    RewriteRule ^personal/js/(.*)$ backend/web/js/$1 [L]
+    RewriteRule ^personal/libs/(.*)$ backend/web/libs/$1 [L]
+    RewriteRule ^personal/img/(.*)$ backend/web/img/$1 [L]
+    RewriteRule ^personal/plugins/(.*)$ backend/web/plugins/$1 [L]
+    RewriteRule ^personal/avatar/(.*)$ backend/web/avatar/$1 [L]
+    RewriteRule ^personal/file/(.*)$ backend/web/file/$1 [L]
+    RewriteRule ^personal/doc/(.*)$ backend/web/doc/$1 [L]
+    RewriteRule ^personal/documents/(.*)$ backend/web/documents/$1 [L]
+    RewriteRule ^personal/fullcalendar/(.*)$ backend/web/fullcalendar/$1 [L]
+    RewriteCond %{REQUEST_URI} !^/backend/web/(assets|js|css|js)/
+    RewriteCond %{REQUEST_URI} ^/(personal)
+    RewriteRule ^.*$ backend/web/index.php [L]
+    RewriteCond %{REQUEST_URI} ^/(assets|css|js|images)
+    RewriteRule ^assets/(.*)$ frontend/web/assets/$1 [L]
+    RewriteRule ^css/(.*)$ frontend/web/css/$1 [L]
+    RewriteRule ^js/(.*)$ frontend/web/js/$1 [L]
+    RewriteRule ^images/(.*)$ frontend/web/images/$1 [L]
+    RewriteRule ^uploads/(.*)$ frontend/web/uploads/$1 [L]
+    RewriteRule ^(.*)$ frontend/web/$1 [L]
+    RewriteCond %{REQUEST_URI} !^/(frontend|backend)/web/(assets|css|js)/
+    RewriteCond %{REQUEST_URI} !index.php
+    RewriteCond %{REQUEST_FILENAME} !-f [OR]
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^.*$ frontend/web/index.php
+</IfModule>
